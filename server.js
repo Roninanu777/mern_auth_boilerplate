@@ -1,15 +1,29 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const db = require("./config/keys").mongoURI;
 const app = express();
+const dotenv = require('dotenv');
+const passport = require("passport");
+const users = require("./routes/api/users");
+
+// Parsing environment variables
+dotenv.config();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //Connect to MongoDB
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then( () => console.log('MongoDB connected...'))
 .catch(err => console.log(err));
+
+// Passport initialization
+app.use(passport.initialize());
+
+// Passport config
+require("./config/passport")(passport);
+
+// Routes
+app.use("/api/users", users);
 
 const PORT = process.env.PORT || 5000;
 
