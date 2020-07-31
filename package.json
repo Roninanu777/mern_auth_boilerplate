@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "auth": "concurrently -n 'server,client' -c 'magenta,blue' \"nodemon server.js\" \"cd client && npm start\""
   },
   "author": "Roninanu777",
   "license": "ISC",
