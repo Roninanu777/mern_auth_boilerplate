@@ -4,6 +4,7 @@ const app = express();
 const dotenv = require('dotenv');
 const passport = require("passport");
 const users = require("./routes/api/users");
+const initializePassport = require("./config/passport");
 
 // Parsing environment variables
 dotenv.config();
@@ -20,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.use(passport.initialize());
 
 // Passport config
-require("./config/passport")(passport);
+initializePassport(passport);
 
 // Routes
 app.use("/api/users", users);
